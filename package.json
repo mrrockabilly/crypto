@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test",
     "start": "node testServer.js"
   },
   "repository": {
@@ -26,6 +26,11 @@
     "tinyurl": "^1.1.2"
   },
   "devDependencies": {
-    "express": "^4.14.0"
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "express": "^4.14.0",
+    "mocha": "^3.1.2",
+    "qr-image": "^3.1.0",
+    "tinyurl": "^1.1.2"
   }
 }

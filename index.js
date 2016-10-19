@@ -111,7 +111,7 @@ function readEncryptedFilePromise() {
 
 }
 
-function makeHashObj(hashStr) {
+ipfsCrypto.makeHashObj = function(hashStr) {
   var hashArray = hashStr.split(' ');
   var hashObj = {
     [hashArray[1]]: {
@@ -249,7 +249,7 @@ function makeQrPromise(hash, outputPath = qrWritePath) {
 
 }
 
-function ipfsAdd(file) {
+ipfsCrypto.ipfsAdd = function(file) {
   exec(`ipfs add '${file}'`, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
@@ -260,13 +260,13 @@ function ipfsAdd(file) {
   });
 }
 
-function ipfsAddPromise(file) {
+ipfsCrypto.ipfsAddPromise =  function(file) {
   return new Promise((resolve, reject) => {
     exec(`ipfs add '${file}'`, (error, stdout, stderr) => {
       if (error) {
-        reject('error in ipfsAddPromise: ${error}');
+        reject(new Error(`error in ipfsAddPromise: ${error}`));
       } else {
-        let hashObj = makeHashObj(stdout);
+        let hashObj = ipfsCrypto.makeHashObj(stdout);
         resolve(hashObj);
       }
     });
@@ -300,9 +300,9 @@ function downloadHashPromise(hash, path = writePath) {
 }
 
 /** takes in url or hash, returns promise which resovles minified url */
-function makeTinyUrlPromise(url) {
+ipfsCrypto.makeTinyUrlPromise = function(url) {
   return new Promise((resolve, reject) => {
-    if (!/Qm/.test(url)) reject('invalid hash');
+    if (!/Qm/.test(url)) reject(new Error('invalid hash'));
     if (!/https:\/\/ipfs.io\/ipfs\//.test(url)) url = `https://ipfs.io/ipfs/${url}`;
     tinyUrl.shorten(url, function (res) {
       resolve(res); //Returns a shorter version of http://google.com - http://tinyurl.com/2tx
