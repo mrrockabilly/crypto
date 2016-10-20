@@ -286,7 +286,8 @@ function downloadHash(hash, path = writePath) {
   let writeStream = fs.createWriteStream(path);
   request(url).pipe(writeStream);
 }
-function downloadHashPromise(hash, path = writePath) {
+
+ipfsCrypto.downloadHashPromise = function(hash, path = writePath) {
   return new Promise((resolve, reject) => {
     let url = /https:\/\/ipfs.io\/ipfs/.test(hash) ? hash : `https://ipfs.io/ipfs/${hash}`;
     request(url, (err, res, body) => {
